@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Commands\**" />
+    <Compile Remove="InputModels\**" />
+    <Compile Remove="Queries\**" />
+    <Compile Remove="Services\**" />
+    <Compile Remove="Validators\**" />
+    <Compile Remove="ViewModels\**" />
+    <EmbeddedResource Remove="Commands\**" />
+    <EmbeddedResource Remove="InputModels\**" />
+    <EmbeddedResource Remove="Queries\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <EmbeddedResource Remove="ViewModels\**" />
+    <None Remove="Commands\**" />
+    <None Remove="InputModels\**" />
+    <None Remove="Queries\**" />
+    <None Remove="Services\**" />
+    <None Remove="Validators\**" />
+    <None Remove="ViewModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Commands\Interfaces\ICommand.cs" />
+    <Compile Include="Commands\Interfaces\ICommandResponse.cs" />
+    <Compile Include="Commands\Requests\Emprestimo\CreateEmprestimoRequest.cs" />
+    <Compile Include="Commands\Requests\Emprestimo\DeleteEmprestimoRequest.cs" />
+    <Compile Include="Commands\Requests\Emprestimo\UpdateEmprestimoRequest.cs" />
+    <Compile Include="Commands\Requests\Livros\CreateLivroRequest.cs" />
+    <Compile Include="Commands\Requests\Livros\DeleteLivroRequest.cs" />
+    <Compile Include="Commands\Requests\Livros\UpdateLivroRequest.cs" />
+    <Compile Include="Commands\Responses\GenericCommandResponse.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageReference Include="System.Collections" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestorBiblioteca.Infrastructure\GestorBiblioteca.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
