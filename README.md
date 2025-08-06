@@ -78,22 +78,5 @@ dotnet test --settings coverlet.runsettings --collect:"XPlat Code Coverage"
 
 O arquivo `coverlet.runsettings` já está configurado para gerar relatórios de cobertura nos formatos **OpenCover**, **JSON** e **Cobertura** na pasta `TestResults`.  Você pode importar esses relatórios em ferramentas como o Visual Studio, Azure DevOps ou Cobertura.
 
-## 📄 Melhorias implementadas
 
-Esta solução inclui diversas melhorias em relação ao esboço inicial:
 
-1. **Fluxo do mediador:** os manipuladores de comandos agora não utilizam `.Result` (evitando deadlocks) e trabalham de forma assíncrona.  O handler de criação de empréstimos reduz o estoque do livro, cria o empréstimo e comita em uma única transação.  Um novo handler (`ReturnEmprestimoHandler`) foi adicionado para processar devoluções, incrementando o estoque e atualizando o status.
-2. **Consultas:** criadas queries simples (`GetAll*` e `GetById*`) que retornam modelos de visualização desacoplados das entidades e suportam filtragem por título/autor.
-3. **Repositórios fakes e testes:** adicionados repositórios em memória e uma bateria de testes unitários cobrindo regras de domínio, handlers, queries, integração com a API e testes de estresse.
-4. **Cobertura de código:** fornecido arquivo `coverlet.runsettings` para coleta de cobertura via Coverlet.
-5. **Documentação:** este README explica a arquitetura, instruções de execução, testes e cobertura.
-
-## 📝 Considerações finais
-
-Este projeto demonstra como estruturar uma aplicação .NET utilizando práticas de DDD, CQRS e testes automatizados.  Para um ambiente de produção seria recomendável adicionar:
-
-- Autenticação e autorização para controlar o acesso aos endpoints.
-- Persistência em banco NoSQL para a parte de leitura (queries) e mecanismo de sincronização baseado em eventos.
-- Tratamento de erros mais robusto e logging estruturado.
-
-Contribuições e sugestões são bem‑vindas!
