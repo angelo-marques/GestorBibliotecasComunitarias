@@ -1,4 +1,3 @@
-using GestorBiblioteca.Application;
 using GestorBiblioteca.Application.Commands.Requests.Emprestimo;
 using GestorBiblioteca.Application.Commands.Requests.Livros;
 using GestorBiblioteca.Application.Commands.Responses;
@@ -10,8 +9,6 @@ using GestorBiblioteca.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
-using SixLabors.ImageSharp;
-using static System.Net.Mime.MediaTypeNames;
 
 internal class Program
 {
@@ -29,9 +26,11 @@ internal class Program
         builder.Services.AddScoped(typeof(IRequestHandler<CreateEmprestimoRequest, GenericCommandResponse>), typeof(CreateEmprestimoHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<UpdateEmprestimoRequest, GenericCommandResponse>), typeof(UpdateEmprestimoHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<DeleteEmprestimoRequest, GenericCommandResponse>), typeof(DeleteEmprestimoHandler));
+        builder.Services.AddScoped(typeof(IRequestHandler<ReturnEmprestimoRequest, GenericCommandResponse>), typeof(ReturnEmprestimoHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<CreateLivroRequest, GenericCommandResponse>), typeof(CreateLivroHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<UpdateLivroRequest, GenericCommandResponse>), typeof(UpdateLivroHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<DeleteLivroRequest, GenericCommandResponse>), typeof(DeleteLivroHandler));
+
 
         builder.Services.AddTransient<IEmprestimoRepository, EmprestimoRepository>();
         builder.Services.AddTransient<ILivroRepository, LivroRepository>();
