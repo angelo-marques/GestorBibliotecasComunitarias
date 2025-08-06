@@ -4,22 +4,21 @@ using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
-namespace GestorBiblioteca.Application.Handlers
+namespace GestorBiblioteca.Application.Handlers.Emprestimo
 {
     public class UpdateEmprestimoHandler : IRequestHandler<UpdateEmprestimoRequest, GenericCommandResponse>
     {
         private readonly IEmprestimoRepository _emprestimoRepository;
         private readonly ILivroRepository _livroRepository;
-        public UpdateEmprestimoHandler(IEmprestimoRepository emprestimoRepository, ILivroRepository livroRepository) {
+        public UpdateEmprestimoHandler(IEmprestimoRepository emprestimoRepository, ILivroRepository livroRepository)
+        {
 
             _livroRepository = livroRepository;
             _emprestimoRepository = emprestimoRepository;
         }
-    
-    
         public Task<GenericCommandResponse> Handle(UpdateEmprestimoRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new GenericCommandResponse(false, "Atualização de empréstimo não suportada.", null));
         }
     }
 }

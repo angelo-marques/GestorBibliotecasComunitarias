@@ -1,10 +1,9 @@
 ﻿using GestorBiblioteca.Application.Commands.Requests.Livros;
 using GestorBiblioteca.Application.Commands.Responses;
-using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
-namespace GestorBiblioteca.Application.Handlers
+namespace GestorBiblioteca.Application.Handlers.Livro
 {
     public class CreateLivroHandler : IRequestHandler<CreateLivroRequest, GenericCommandResponse>
        
@@ -16,7 +15,7 @@ namespace GestorBiblioteca.Application.Handlers
 
         public async Task<GenericCommandResponse> Handle(CreateLivroRequest request, CancellationToken cancellationToken)
         {
-            Livro livro = new(request.Titulo, request.Autor, request.AnoPublicacao, request.QuantidadeDisponivel);
+            Domain.Entities.Livro livro = new(request.Titulo, request.Autor, request.AnoPublicacao, request.QuantidadeDisponivel);
 
             _livroRepository.Cadastrar(livro);
             if (_livroRepository.UnitOfWork.Commit().Result != true)

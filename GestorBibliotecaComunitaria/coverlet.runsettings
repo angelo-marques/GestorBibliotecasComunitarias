@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <!-- Code coverage configuration for the GestorBiblioteca solution.  When executing `dotnet test` with
+       `--collect:"XPlat Code Coverage" --settings coverlet.runsettings` the coverage collector will
+       generate reports in multiple formats for all referenced assemblies.  -->
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="XPlat Code Coverage">
+        <Configuration>
+          <!-- Generate reports in OpenCover, JSON and Cobertura formats -->
+          <Format>opencover,json,cobertura</Format>
+          <!-- Only include our solution's assemblies in the coverage results -->
+          <Include>[GestorBiblioteca*]*</Include>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectorRunSettings>
+</RunSettings>

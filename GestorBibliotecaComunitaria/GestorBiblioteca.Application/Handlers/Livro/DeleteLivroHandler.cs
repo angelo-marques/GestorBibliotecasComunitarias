@@ -4,7 +4,7 @@ using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
-namespace GestorBiblioteca.Application.Handlers
+namespace GestorBiblioteca.Application.Handlers.Livro
 {
     public class DeleteLivroHandler :  IRequestHandler<DeleteLivroRequest, GenericCommandResponse>
      
@@ -16,7 +16,7 @@ namespace GestorBiblioteca.Application.Handlers
 
         public Task<GenericCommandResponse> Handle(DeleteLivroRequest request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return Task.FromResult(new GenericCommandResponse(false, "Exclusão de livros não suportada.", null));
         }
 
 

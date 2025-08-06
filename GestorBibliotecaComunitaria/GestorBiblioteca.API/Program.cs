@@ -2,12 +2,15 @@ using GestorBiblioteca.Application;
 using GestorBiblioteca.Application.Commands.Requests.Emprestimo;
 using GestorBiblioteca.Application.Commands.Requests.Livros;
 using GestorBiblioteca.Application.Commands.Responses;
-using GestorBiblioteca.Application.Handlers;
+using GestorBiblioteca.Application.Handlers.Emprestimo;
+using GestorBiblioteca.Application.Handlers.Livro;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using GestorBiblioteca.Infrastructure.Persistence;
 using GestorBiblioteca.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Driver;
+using SixLabors.ImageSharp;
 using static System.Net.Mime.MediaTypeNames;
 
 internal class Program
@@ -38,6 +41,10 @@ internal class Program
                 sqlOptions => sqlOptions.MigrationsAssembly("GestorBiblioteca.API")
             )
         );
+        builder.Services.AddSingleton<IMongoClient>(sp =>
+    new MongoClient(builder.Configuration.GetConnectionString("MongoConnection")));
+
+        builder.Services.AddHttpClient();
 
 
         var app = builder.Build();

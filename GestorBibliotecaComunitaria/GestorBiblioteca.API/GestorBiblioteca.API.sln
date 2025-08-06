@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorBiblioteca.Applicatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorBiblioteca.Infrastructure", "..\GestorBiblioteca.Infrastructure\GestorBiblioteca.Infrastructure.csproj", "{50558207-DD91-4BF6-A9C8-E1726D43F5EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestorBiblioteca.Tests", "..\GestorBiblioteca.Tests\GestorBiblioteca.Tests.csproj", "{2219B815-DCB6-FDAE-9D52-7679B261039E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{50558207-DD91-4BF6-A9C8-E1726D43F5EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50558207-DD91-4BF6-A9C8-E1726D43F5EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50558207-DD91-4BF6-A9C8-E1726D43F5EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2219B815-DCB6-FDAE-9D52-7679B261039E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2219B815-DCB6-FDAE-9D52-7679B261039E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2219B815-DCB6-FDAE-9D52-7679B261039E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2219B815-DCB6-FDAE-9D52-7679B261039E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
