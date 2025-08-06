@@ -9,22 +9,28 @@
   <ItemGroup>
     <Compile Remove="Commands\**" />
     <Compile Remove="InputModels\**" />
-    <Compile Remove="Queries\**" />
+    <Compile Remove="Queries\GetAllEmprestimos\**" />
+    <Compile Remove="Queries\GetAllLivros\**" />
+    <Compile Remove="Queries\GetEmprestimoById\**" />
+    <Compile Remove="Queries\GetLivroById\**" />
     <Compile Remove="Services\**" />
     <Compile Remove="Validators\**" />
-    <Compile Remove="ViewModels\**" />
     <EmbeddedResource Remove="Commands\**" />
     <EmbeddedResource Remove="InputModels\**" />
-    <EmbeddedResource Remove="Queries\**" />
+    <EmbeddedResource Remove="Queries\GetAllEmprestimos\**" />
+    <EmbeddedResource Remove="Queries\GetAllLivros\**" />
+    <EmbeddedResource Remove="Queries\GetEmprestimoById\**" />
+    <EmbeddedResource Remove="Queries\GetLivroById\**" />
     <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="Validators\**" />
-    <EmbeddedResource Remove="ViewModels\**" />
     <None Remove="Commands\**" />
     <None Remove="InputModels\**" />
-    <None Remove="Queries\**" />
+    <None Remove="Queries\GetAllEmprestimos\**" />
+    <None Remove="Queries\GetAllLivros\**" />
+    <None Remove="Queries\GetEmprestimoById\**" />
+    <None Remove="Queries\GetLivroById\**" />
     <None Remove="Services\**" />
     <None Remove="Validators\**" />
-    <None Remove="ViewModels\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +38,7 @@
     <Compile Include="Commands\Interfaces\ICommandResponse.cs" />
     <Compile Include="Commands\Requests\Emprestimo\CreateEmprestimoRequest.cs" />
     <Compile Include="Commands\Requests\Emprestimo\DeleteEmprestimoRequest.cs" />
+    <Compile Include="Commands\Requests\Emprestimo\ReturnEmprestimoRequest.cs" />
     <Compile Include="Commands\Requests\Emprestimo\UpdateEmprestimoRequest.cs" />
     <Compile Include="Commands\Requests\Livros\CreateLivroRequest.cs" />
     <Compile Include="Commands\Requests\Livros\DeleteLivroRequest.cs" />

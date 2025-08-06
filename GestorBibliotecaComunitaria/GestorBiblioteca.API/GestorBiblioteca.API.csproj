@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\GestorBibliotecaApplication\GestorBiblioteca.Application.csproj" />
+    <ProjectReference Include="..\GestorBiblioteca.Application\GestorBiblioteca.Application.csproj" />
   </ItemGroup>
 
 </Project>

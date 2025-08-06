@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Target the same framework used by the application (net8.0) -->
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- xUnit test framework -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel" Version="2.3.0" />
+    <PackageReference Include="xunit" Version="2.5.6" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.1" />
+    <!-- NSubstitute provides mocking capabilities without using Moq -->
+    <PackageReference Include="NSubstitute" Version="5.0.0" />
+    <!-- FluentAssertions makes assertions more expressive -->
+    <PackageReference Include="FluentAssertions" Version="6.8.0" />
+    <!-- Collects code coverage during test runs -->
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <!-- EF Core in-memory provider for testing repository classes -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="7.0.17" />
+    <!-- MongoDB driver to allow mocking of Mongo collection types for BaseMongoRepository tests -->
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Reference the projects under test -->
+    <ProjectReference Include="..\GestorBiblioteca.Application\GestorBiblioteca.Application.csproj" />
+  </ItemGroup>
+
+  <!-- Configure the test run to collect code coverage automatically -->
+  <PropertyGroup>
+    <CollectCoverage>true</CollectCoverage>
+    <CoverletOutputFormat>lcov</CoverletOutputFormat>
+  </PropertyGroup>
+
+</Project>
