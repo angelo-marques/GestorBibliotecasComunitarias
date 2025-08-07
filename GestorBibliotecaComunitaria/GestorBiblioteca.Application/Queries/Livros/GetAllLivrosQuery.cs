@@ -4,18 +4,13 @@ using MediatR;
 
 namespace GestorBiblioteca.Application.Queries.Livros
 {
-    /// <summary>
-    /// Query used to retrieve all books from the write database.  Supports optional text filtering.
-    /// </summary>
     public class GetAllLivrosQuery : IRequest<ResultViewModel<List<LivroViewModel>>>
     {
         public GetAllLivrosQuery(string? search = null)
         {
             Search = search;
         }
-        /// <summary>
-        /// Optional search term used to filter books by title or author.  When null all books are returned.
-        /// </summary>
+
         public string? Search { get; }
     }
 
@@ -26,7 +21,6 @@ namespace GestorBiblioteca.Application.Queries.Livros
         {
             _livroRepository = livroRepository;
         }
-
         public async Task<ResultViewModel<List<LivroViewModel>>> Handle(GetAllLivrosQuery request, CancellationToken cancellationToken)
         {
             var livros = await _livroRepository.BuscarTodos();

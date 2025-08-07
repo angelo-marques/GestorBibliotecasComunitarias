@@ -14,7 +14,6 @@ namespace GestorBiblioteca.Application.Handlers.Emprestimo
             _livroRepository = livroRepository;
             _emprestimoRepository = emprestimoRepository;
         }
-    
         public async Task<GenericCommandResponse> Handle(CreateEmprestimoRequest request, CancellationToken cancellationToken)
         {
             if (request.LivroId <= 0)
@@ -49,6 +48,5 @@ namespace GestorBiblioteca.Application.Handlers.Emprestimo
 
             return new GenericCommandResponse(true, "Empréstimo criado com sucesso.", emprestimo);
         }
-
     }
 }

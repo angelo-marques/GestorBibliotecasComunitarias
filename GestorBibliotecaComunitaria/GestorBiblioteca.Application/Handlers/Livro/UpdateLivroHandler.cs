@@ -1,6 +1,5 @@
 ﻿using GestorBiblioteca.Application.Commands.Requests.Livros;
 using GestorBiblioteca.Application.Commands.Responses;
-using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
@@ -15,7 +14,6 @@ namespace GestorBiblioteca.Application.Handlers.Livro
 
         public async Task<GenericCommandResponse> Handle(UpdateLivroRequest request, CancellationToken cancellationToken)
         {
-          
             if (request.Id <= 0)
                 return new GenericCommandResponse(false, "Identificador do livro inválido.", null);
 
@@ -40,6 +38,5 @@ namespace GestorBiblioteca.Application.Handlers.Livro
             }
             return new GenericCommandResponse(true, "Livro atualizado com sucesso.", livro);
         }
-
     }
 }

@@ -1,6 +1,5 @@
 ﻿using GestorBiblioteca.Application.Commands.Requests.Emprestimo;
 using GestorBiblioteca.Application.Commands.Responses;
-using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
@@ -17,7 +16,6 @@ namespace GestorBiblioteca.Application.Handlers.Emprestimo
             _livroRepository = livroRepository;
             _emprestimoRepository = emprestimoRepository;
         }
-
         public Task<GenericCommandResponse> Handle(DeleteEmprestimoRequest request, CancellationToken cancellationToken)
         {
             return Task.FromResult(new GenericCommandResponse(false, "A operação de exclusão de empréstimos não é suportada. Utilize a devolução.", null));

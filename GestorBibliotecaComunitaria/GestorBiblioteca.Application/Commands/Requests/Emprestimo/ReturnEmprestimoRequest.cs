@@ -10,9 +10,6 @@ namespace GestorBiblioteca.Application.Commands.Requests.Emprestimo
             EmprestimoId = emprestimoId;
         }
 
-        /// <summary>
-        /// Identifier of the loan being returned.
-        /// </summary>
         public int EmprestimoId { get; }
     }
 }

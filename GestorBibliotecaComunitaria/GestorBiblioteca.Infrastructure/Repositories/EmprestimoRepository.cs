@@ -29,7 +29,6 @@ namespace GestorBiblioteca.Infrastructure.Repositories
         {
             return await _context.Emprestimos.AsNoTracking().ToListAsync();
         }
-        
 
         public void Cadastrar(Emprestimo obj)
         {

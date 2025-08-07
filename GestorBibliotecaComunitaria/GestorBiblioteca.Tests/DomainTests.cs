@@ -20,10 +20,13 @@ namespace GestorBiblioteca.Tests
             var livro = new Livro(titulo, autor, ano, quantidade);
 
             // Assert
-            Assert.Equal(titulo, livro.Titulo);
-            Assert.Equal(autor, livro.Autor);
-            Assert.Equal(ano, livro.AnoPublicacao);
-            Assert.Equal(quantidade, livro.QuantidadeDisponivel);
+            Assert.Multiple(() =>
+            {
+                Assert.Equal(titulo, livro.Titulo);
+                Assert.Equal(autor, livro.Autor);
+                Assert.Equal(ano, livro.AnoPublicacao);
+                Assert.Equal(quantidade, livro.QuantidadeDisponivel);
+            });
         }
 
         [Fact]
@@ -59,9 +62,11 @@ namespace GestorBiblioteca.Tests
             var emprestimo = new Emprestimo(1, livro, dataEmprestimo, dueDate, EmprestimoStatusEnum.Ativo);
 
             emprestimo.DevolverLivro();
-
-            Assert.Equal(EmprestimoStatusEnum.Devolvido, emprestimo.Status);
-            Assert.True((DateTime.UtcNow - emprestimo.DataDevolucao).TotalSeconds < 1);
+            Assert.Multiple(() =>
+            {
+                Assert.Equal(EmprestimoStatusEnum.Devolvido, emprestimo.Status);
+                Assert.True((DateTime.UtcNow - emprestimo.DataDevolucao).TotalSeconds < 1);
+            });
         }
     }
 }

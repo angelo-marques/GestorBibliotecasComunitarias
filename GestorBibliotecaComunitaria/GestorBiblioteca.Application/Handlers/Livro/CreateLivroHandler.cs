@@ -12,7 +12,6 @@ namespace GestorBiblioteca.Application.Handlers.Livro
         public CreateLivroHandler(ILivroRepository livroRepository) {
             _livroRepository = livroRepository;
         }
-
         public async Task<GenericCommandResponse> Handle(CreateLivroRequest request, CancellationToken cancellationToken)
         {
             Domain.Entities.Livro livro = new(request.Titulo, request.Autor, request.AnoPublicacao, request.QuantidadeDisponivel);

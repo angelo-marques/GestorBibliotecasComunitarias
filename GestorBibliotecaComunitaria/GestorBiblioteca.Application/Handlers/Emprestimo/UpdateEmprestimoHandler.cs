@@ -1,6 +1,5 @@
 ﻿using GestorBiblioteca.Application.Commands.Requests.Emprestimo;
 using GestorBiblioteca.Application.Commands.Responses;
-using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 

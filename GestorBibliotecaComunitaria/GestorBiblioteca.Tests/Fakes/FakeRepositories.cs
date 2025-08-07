@@ -18,7 +18,6 @@ namespace GestorBiblioteca.Tests.Fakes
 
         public Task<bool> Commit()
         {
-            // Always succeed
             return Task.FromResult(true);
         }
     }
@@ -32,7 +31,6 @@ namespace GestorBiblioteca.Tests.Fakes
         public void Cadastrar(Livro obj)
         {
             var id = Interlocked.Increment(ref _currentId);
-            // Set the Id property via reflection since it has a private setter
             var prop = typeof(Livro).GetProperty("Id", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             prop!.SetValue(obj, id);
             _storage[id] = obj;

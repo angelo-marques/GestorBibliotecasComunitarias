@@ -5,9 +5,6 @@ using MediatR;
 
 namespace GestorBiblioteca.Application.Queries.Emprestimos
 {
-    /// <summary>
-    /// Query used to retrieve a specific loan by its identifier.
-    /// </summary>
     public class GetEmprestimoByIdQuery : IRequest<ResultViewModel<EmprestimoViewModel>>
     {
         public GetEmprestimoByIdQuery(int id)
