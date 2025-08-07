@@ -54,9 +54,12 @@ internal class Program
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
         app.UseHttpsRedirection();
+        app.UseCors("AllowSpecificOrigin");
 
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

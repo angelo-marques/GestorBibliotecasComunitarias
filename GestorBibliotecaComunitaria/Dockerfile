@@ -10,12 +10,12 @@ EXPOSE 8081
 
 # Esta fase é usada para compilar o projeto de serviço
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Debug
 WORKDIR /src
 COPY ["GestorBiblioteca.API/GestorBiblioteca.API.csproj", "GestorBiblioteca.API/"]
-COPY ["GestorBiblioteca.Application/GestorBiblioteca.Application.csproj", "GestorBiblioteca.Application"]
-COPY ["GestorBiblioteca.Infrastructure/GestorBiblioteca.Infrastructure.csproj", "./GestorBiblioteca.Infrastructure/"]
-COPY ["GestorBiblioteca.Domain/GestorBiblioteca.Domain.csproj", "GestorBiblioteca.Domain"]
+COPY ["GestorBiblioteca.Application/GestorBiblioteca.Application.csproj", "GestorBiblioteca.Application/"]
+COPY ["GestorBiblioteca.Infrastructure/GestorBiblioteca.Infrastructure.csproj", "GestorBiblioteca.Infrastructure/"]
+COPY ["GestorBiblioteca.Domain/GestorBiblioteca.Domain.csproj", "GestorBiblioteca.Domain/"]
 RUN dotnet restore "./GestorBiblioteca.API/GestorBiblioteca.API.csproj"
 COPY . . 
 WORKDIR "/src/GestorBiblioteca.API"
@@ -23,7 +23,7 @@ RUN dotnet build "./GestorBiblioteca.API.csproj" -c $BUILD_CONFIGURATION -o /app
 
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
+ARG BUILD_CONFIGURATION=Debug
 RUN dotnet publish "./GestorBiblioteca.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
