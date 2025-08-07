@@ -7,11 +7,9 @@ namespace GestorBiblioteca.Infrastructure.Repositories
     {
         protected readonly IBaseMongoContext _context;
         protected IMongoCollection<TEntity> _dbCollection;
-
         protected  BaseMongoRepository(IBaseMongoContext context, string collectionName)
         {
             _context = context;
-            
             _dbCollection = _context.GetCollection<TEntity>(collectionName);
         }
 
@@ -56,7 +54,6 @@ namespace GestorBiblioteca.Infrastructure.Repositories
 
             _context.AddCommand(() => _dbCollection.DeleteOneAsync(filter));
         }
-
      
         public void Dispose()
         {

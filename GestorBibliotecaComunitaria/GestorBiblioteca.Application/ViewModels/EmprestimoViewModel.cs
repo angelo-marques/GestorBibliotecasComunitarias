@@ -1,8 +1,5 @@
-using System;
-
 namespace GestorBiblioteca.Application.ViewModels
 {
-    
     public class EmprestimoViewModel
     {
         public int Id { get; set; }

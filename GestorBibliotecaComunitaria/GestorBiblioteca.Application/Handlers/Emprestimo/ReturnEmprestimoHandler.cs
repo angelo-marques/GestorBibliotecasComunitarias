@@ -13,7 +13,6 @@ namespace GestorBiblioteca.Application.Handlers.Emprestimo
         {
             _emprestimoRepository = emprestimoRepository;
         }
-
         public async Task<GenericCommandResponse> Handle(ReturnEmprestimoRequest request, CancellationToken cancellationToken)
         {
             // Retrieve the loan from the write model

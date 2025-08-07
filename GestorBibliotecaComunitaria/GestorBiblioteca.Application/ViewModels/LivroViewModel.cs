@@ -1,8 +1,5 @@
-using System;
-
 namespace GestorBiblioteca.Application.ViewModels
 {
- 
     public class LivroViewModel
     {
         public int Id { get; set; }

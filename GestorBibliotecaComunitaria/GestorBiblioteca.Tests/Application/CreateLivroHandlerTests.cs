@@ -44,7 +44,6 @@ namespace GestorBiblioteca.Tests.Application
             var unitOfWork = Substitute.For<IUnitOfWork>();
             livroRepository.UnitOfWork.Returns(unitOfWork);
             unitOfWork.Commit().Returns(Task.FromResult(false));
-
             var handler = new CreateLivroHandler(livroRepository);
             var request = new CreateLivroRequest("Titulo", "Autor", 2024, 3);
 
@@ -56,7 +55,5 @@ namespace GestorBiblioteca.Tests.Application
             response.Menssagem.Should().Be("Erro ao tentar salvar dados");
             response.Dados.Should().BeNull();
         }
-
-      
     }
 }

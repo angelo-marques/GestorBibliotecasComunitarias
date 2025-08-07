@@ -4,9 +4,6 @@ using MediatR;
 
 namespace GestorBiblioteca.Application.Queries.Livros
 {
-    /// <summary>
-    /// Query for retrieving a single book by its identifier.
-    /// </summary>
     public class GetLivroByIdQuery : IRequest<ResultViewModel<LivroViewModel>>
     {
         public GetLivroByIdQuery(int id)

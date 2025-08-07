@@ -5,9 +5,6 @@ using MediatR;
 
 namespace GestorBiblioteca.Application.Queries.Emprestimos
 {
-    /// <summary>
-    /// Query used to retrieve all loans.  Optional search term filters by book title.
-    /// </summary>
     public class GetAllEmprestimosQuery : IRequest<ResultViewModel<List<EmprestimoViewModel>>>
     {
         public GetAllEmprestimosQuery(string? search = null)

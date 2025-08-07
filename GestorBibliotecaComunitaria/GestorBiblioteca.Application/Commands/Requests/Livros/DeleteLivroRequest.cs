@@ -1,5 +1,4 @@
-﻿using GestorBiblioteca.Application.Commands.Interfaces;
-using GestorBiblioteca.Application.Commands.Responses;
+﻿using GestorBiblioteca.Application.Commands.Responses;
 using MediatR;
 
 namespace GestorBiblioteca.Application.Commands.Requests.Livros
@@ -15,8 +14,5 @@ namespace GestorBiblioteca.Application.Commands.Requests.Livros
         public int Id { get; private set; }
 
         public bool IsDeleted { get; private set; }
-
-
-      
     }
 }

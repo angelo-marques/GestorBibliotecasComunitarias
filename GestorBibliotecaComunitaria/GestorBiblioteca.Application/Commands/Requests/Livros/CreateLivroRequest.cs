@@ -18,8 +18,6 @@ namespace GestorBiblioteca.Application.Commands.Requests.Livros
         public string Titulo { get; private set; }
         public string Autor { get; private set; }
         public int AnoPublicacao { get; private set; }
-        public int QuantidadeDisponivel { get; private set; }
-
-  
+        public int QuantidadeDisponivel { get; private set; }  
     }
 }

@@ -1,12 +1,10 @@
-﻿using GestorBiblioteca.Application.Commands.Interfaces;
-using GestorBiblioteca.Application.Commands.Responses;
+﻿using GestorBiblioteca.Application.Commands.Responses;
 using MediatR;
 
 namespace GestorBiblioteca.Application.Commands.Requests.Livros
 {
     public class UpdateLivroRequest : IRequest<GenericCommandResponse>
     {
-
         public UpdateLivroRequest(int id, string titulo, string autor, int anoPublicacao, int quantidadeDisponivel, DateTime createdAt = default, bool isDeleted = false)
         {
             Titulo = titulo;
@@ -24,7 +22,5 @@ namespace GestorBiblioteca.Application.Commands.Requests.Livros
         public string Autor { get; private set; }
         public int AnoPublicacao { get; private set; }
         public int QuantidadeDisponivel { get; private set; }
-
-       
     }
 }

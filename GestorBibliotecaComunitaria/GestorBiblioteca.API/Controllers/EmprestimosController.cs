@@ -1,5 +1,6 @@
 ﻿using GestorBiblioteca.Application.Commands.Requests.Emprestimo;
 using GestorBiblioteca.Application.Commands.Responses;
+using GestorBiblioteca.Application.Queries.Emprestimos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -61,7 +62,7 @@ namespace GestorBiblioteca.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll([FromQuery] string? search)
         {
-            var result = await _mediator.Send(new GestorBiblioteca.Application.Queries.Emprestimos.GetAllEmprestimosQuery(search));
+            var result = await _mediator.Send(new GetAllEmprestimosQuery(search));
             if (!result.IsSuccess)
                 return BadRequest(result.Message);
             return Ok(result.Data);
@@ -70,7 +71,7 @@ namespace GestorBiblioteca.API.Controllers
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
-            var result = await _mediator.Send(new GestorBiblioteca.Application.Queries.Emprestimos.GetEmprestimoByIdQuery(id));
+            var result = await _mediator.Send(new GetEmprestimoByIdQuery(id));
             if (!result.IsSuccess)
                 return NotFound(result.Message);
             return Ok(result.Data);

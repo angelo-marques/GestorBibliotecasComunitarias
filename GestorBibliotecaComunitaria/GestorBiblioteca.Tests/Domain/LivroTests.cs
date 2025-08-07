@@ -5,7 +5,6 @@ using Xunit;
 
 namespace GestorBiblioteca.Tests.Domain
 {
-  
     public class LivroTests
     {
         [Fact]
@@ -64,7 +63,6 @@ namespace GestorBiblioteca.Tests.Domain
         {
             // Arrange
             var livro = new Livro("Teste", "Autor", 2000, 1);
-            // Decrement once to get to zero
             livro.DiminuirQuantidade();
 
             // Act
@@ -91,17 +89,14 @@ namespace GestorBiblioteca.Tests.Domain
         [Fact]
         public void Update_WithValidData_ShouldUpdateFieldsAndDecreaseOnce()
         {
-            // Arrange
             var livro = new Livro("Titulo original", "Autor original", 2000, 5);
             string novoAutor = "Novo Autor";
             string novoTitulo = "Novo Título";
             int novaQuantidade = 3;
             int novoAno = 2025;
 
-            // Act
             livro.Update(novoAutor, novoTitulo, novaQuantidade, novoAno);
 
-            // Assert
             livro.Autor.Should().Be(novoAutor);
             livro.Titulo.Should().Be(novoTitulo);
             livro.QuantidadeDisponivel.Should().Be(novaQuantidade);
@@ -115,13 +110,10 @@ namespace GestorBiblioteca.Tests.Domain
         [InlineData("Título", "Autor", -1, 2023)]
         public void Update_WithInvalidData_ShouldThrow(string novoAutor, string novoTitulo, int novaQuantidade, int novoAno)
         {
-            // Arrange
             var livro = new Livro("Titulo", "Autor", 2000, 5);
 
-            // Act
             Action act = () => livro.Update(novoAutor, novoTitulo, novaQuantidade, novoAno);
 
-            // Assert
             act.Should().Throw<InvalidOperationException>();
         }
     }

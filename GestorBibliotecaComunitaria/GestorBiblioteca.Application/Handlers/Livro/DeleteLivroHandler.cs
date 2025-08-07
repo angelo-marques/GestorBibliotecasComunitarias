@@ -1,6 +1,5 @@
 ﻿using GestorBiblioteca.Application.Commands.Requests.Livros;
 using GestorBiblioteca.Application.Commands.Responses;
-using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
@@ -18,7 +17,5 @@ namespace GestorBiblioteca.Application.Handlers.Livro
         {
             return Task.FromResult(new GenericCommandResponse(false, "Exclusão de livros não suportada.", null));
         }
-
-
     }
 }
