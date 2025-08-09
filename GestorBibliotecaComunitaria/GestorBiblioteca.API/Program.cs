@@ -8,6 +8,8 @@ using GestorBiblioteca.Infrastructure.Persistence;
 using GestorBiblioteca.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
 
 internal class Program
@@ -21,7 +23,34 @@ internal class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+   
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gestor Biblioteca API", Version = "v1" });
+
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                In = ParameterLocation.Header,
+                Description = "Please insert JWT Token",
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT"
+            });
+
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        },
+                        new string[] { }
+                    }
+                });
+        });
+
+
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
         builder.Services.AddScoped(typeof(IRequestHandler<CreateEmprestimoRequest, GenericCommandResponse>), typeof(CreateEmprestimoHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<UpdateEmprestimoRequest, GenericCommandResponse>), typeof(UpdateEmprestimoHandler));
@@ -45,23 +74,26 @@ internal class Program
 
         builder.Services.AddHttpClient();
 
-
+      
         var app = builder.Build();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
+        using (var scope = app.Services.CreateScope())
         {
-            app.UseSwagger();
-            app.UseSwaggerUI();
+            var db = scope.ServiceProvider.GetRequiredService<GestorBibliotecaDbContext>();
+                db.Database.MigrateAsync();
         }
-        app.UseHttpsRedirection();
+
+        // Configure the HTTP request pipeline.
+
         app.UseCors("AllowSpecificOrigin");
+        
+        app.UseHttpsRedirection();
 
         app.UseSwagger();
         app.UseSwaggerUI();
         app.UseAuthentication();
         app.UseAuthorization();
-
+        
         app.MapControllers();
 
         app.Run();

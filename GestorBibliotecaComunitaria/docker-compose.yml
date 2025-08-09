@@ -1,37 +1,36 @@
+version: '3.8'
 services:
   gestor.biblioteca.api:
     container_name: gestor_biblioteca_api
-    image: ${DOCKER_REGISTRY-}gestorbibliotecaapi
+    image: ${DOCKER_REGISTRY-}gestor_biblioteca_api
     build:
         context: .
         dockerfile: Dockerfile
     environment:
         - ASPNETCORE_ENVIRONMENT=Development
-        - ASPNETCORE_HTTP_PORTS=8080
-        - ASPNETCORE_HTTPS_PORTS=8081
+        - ASPNETCORE_URLS=https://+:443;http://+:80
     ports:
-        - "8080"
-        - "8081"
+        - "8080:80"
+        - "8081:443"
     volumes:
-        - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-        - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+        - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+        - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    depends_on:
+      - gestor.biblioteca.database
+      - gestor.biblioteca.nosql
 
   gestor.biblioteca.database:
     container_name: gestor_biblioteca_database
-    image: mcr.microsoft.com/mssql/server:2025-latest
-    environment:
-      SA_PASSWORD: Pass@word86
-      ACCEPT_EULA: Y 
+    image: mcr.microsoft.com/mssql/server:2022-CU11-ubuntu-22.04
     ports:
-      - "5434:1433"
+      - "1402:1433"
+    environment:
+      - ACCEPT_EULA="Y"
+      - MSSQL_SA_PASSWORD=$Pass@word86
+    user: root
 
   gestor.biblioteca.nosql:
     container_name: gestor_biblioteca_database_nosql 
     image: mongo:latest   
     ports:
       - "27017:27017"
-
- 
-
-
-  
