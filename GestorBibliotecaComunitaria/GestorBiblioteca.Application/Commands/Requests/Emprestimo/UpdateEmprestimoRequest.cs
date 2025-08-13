@@ -7,13 +7,12 @@ namespace GestorBiblioteca.Application.Commands.Requests.Emprestimo
 {
     public class UpdateEmprestimoRequest : IRequest<GenericCommandResponse>
     {
-        public UpdateEmprestimoRequest(int id, DateTime createdAt, bool isDeleted, int livroId, Livro livro, DateTime dataEmprestimo, DateTime dataDevolucao, EmprestimoStatusEnum status)
+        public UpdateEmprestimoRequest(int id, DateTime createdAt, bool isDeleted, int livroId, DateTime dataEmprestimo, DateTime dataDevolucao, EmprestimoStatusEnum status)
         {
             Id = id;
             CreatedAt = createdAt;
             IsDeleted = isDeleted;
             LivroId = livroId;
-            Livro = livro;
             DataEmprestimo = dataEmprestimo;
             DataDevolucao = dataDevolucao;
             Status = status;

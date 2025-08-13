@@ -7,6 +7,7 @@ namespace GestorBiblioteca.Application.Commands.Requests.Emprestimo
 {
     public class CreateEmprestimoRequest : IRequest<GenericCommandResponse>
     {
+        
         public CreateEmprestimoRequest(int livroId, DateTime dataEmprestimo, DateTime dataDevolucao, EmprestimoStatusEnum status)
         {
             LivroId = livroId;
@@ -16,7 +17,6 @@ namespace GestorBiblioteca.Application.Commands.Requests.Emprestimo
         }
 
         public int LivroId { get; private set; }
-        public Livro Livro { get; private set; }
 
         public DateTime DataEmprestimo { get; private set; }
         public DateTime DataDevolucao { get; private set; }

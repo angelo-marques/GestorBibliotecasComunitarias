@@ -30,7 +30,8 @@ namespace GestorBiblioteca.Application.Queries.Livros
                 Titulo = l.Titulo,
                 Autor = l.Autor,
                 AnoPublicacao = l.AnoPublicacao,
-                QuantidadeDisponivel = l.QuantidadeDisponivel
+                QuantidadeDisponivel = l.QuantidadeDisponivel,
+                QuantidadeCadastrada = (int)l.QuantidadeCadastrada
             });
             if (!string.IsNullOrWhiteSpace(request.Search))
             {

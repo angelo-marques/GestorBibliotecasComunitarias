@@ -5,6 +5,7 @@ using GestorBiblioteca.Application.Handlers.Emprestimo;
 using GestorBiblioteca.Domain.Entities;
 using GestorBiblioteca.Domain.Enums;
 using GestorBiblioteca.Infrastructure.Interfaces;
+using GestorBiblioteca.Infrastructure.Persistence;
 using NSubstitute;
 using System;
 using System.Reflection;
@@ -16,7 +17,7 @@ namespace GestorBiblioteca.Tests.Application
 {
     public class CreateEmprestimoHandlerTests
     {
-        private static Livro CreateLivro() => new("Titulo", "Autor", 2020, 2);
+        private static Livro CreateLivro() => new("Titulo", "Autor", 2020, 2, 2);
 
         private static void SetRequestLivro(CreateEmprestimoRequest request, Livro livro)
         {
@@ -27,10 +28,13 @@ namespace GestorBiblioteca.Tests.Application
         [Fact]
         public async Task Handle_ShouldReturnError_WhenLivroIdIsInvalid()
         {
+          
             // Arrange
             var emprestimoRepository = Substitute.For<IEmprestimoRepository>();
             var livroRepository = Substitute.For<ILivroRepository>();
-            var handler = new CreateEmprestimoHandler(emprestimoRepository, livroRepository);
+            var context = Substitute.For<IBaseMongoContext>();
+            var unitOfWork = Substitute.For<IUnitOfWork>();
+            var handler = new CreateEmprestimoHandler(emprestimoRepository, livroRepository, context, unitOfWork);
             var request = new CreateEmprestimoRequest(0, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow.AddDays(1), EmprestimoStatusEnum.Ativo);
 
             // Act
@@ -51,16 +55,17 @@ namespace GestorBiblioteca.Tests.Application
             var livroRepository = Substitute.For<ILivroRepository>();
             var livroFromRepo = CreateLivro();
             livroRepository.BuscarPorId(Arg.Any<int>()).Returns(Task.FromResult(livroFromRepo));
-
-            var handler = new CreateEmprestimoHandler(emprestimoRepository, livroRepository);
-            var request = new CreateEmprestimoRequest(1, DateTime.UtcNow.AddDays(-1), DateTime.UtcNow.AddDays(1), EmprestimoStatusEnum.Ativo);
+            var context = Substitute.For<IBaseMongoContext>();
+            var unitOfWork = Substitute.For<IUnitOfWork>();
+            var handler = new CreateEmprestimoHandler(emprestimoRepository, livroRepository, context, unitOfWork);
+            var request = new CreateEmprestimoRequest(1, DateTime.UtcNow.AddDays(1), DateTime.UtcNow.AddDays(-1), EmprestimoStatusEnum.Ativo);
 
             // Act
             GenericCommandResponse response = await handler.Handle(request, CancellationToken.None);
 
             // Assert
             response.Sucesso.Should().BeFalse();
-            response.Menssagem.Should().Be("Livro não pode ser vazio");
+            response.Menssagem.Should().Be("Data de emprestimo esta maior que a data de devolução");
             response.Dados.Should().BeNull();
         }
     }

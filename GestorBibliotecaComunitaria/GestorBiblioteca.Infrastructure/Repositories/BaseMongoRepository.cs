@@ -12,7 +12,6 @@ namespace GestorBiblioteca.Infrastructure.Repositories
             _context = context;
             _dbCollection = _context.GetCollection<TEntity>(collectionName);
         }
-
         public virtual IEnumerable<TEntity> BuscarTodos()
         {
             IFindFluent<TEntity, TEntity> all = _dbCollection.Find(Builders<TEntity>.Filter.Empty);

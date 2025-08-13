@@ -1,6 +1,7 @@
 ﻿using GestorBiblioteca.Domain.Entities.Interfaces;
 using GestorBiblioteca.Domain.Enums;
 using MicroServico.Domain.Validators;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace GestorBiblioteca.Domain.Entities
 {
@@ -8,20 +9,22 @@ namespace GestorBiblioteca.Domain.Entities
     {
         protected Emprestimo() { }
 
-        public Emprestimo(int livroId, Livro livro, DateTime dataEmprestimo, DateTime dataDevolucao, EmprestimoStatusEnum status)
+        public Emprestimo(int livroId,  DateTime dataEmprestimo, DateTime dataDevolucao, EmprestimoStatusEnum status)
         {
             LivroId = livroId;
-            Livro = livro;
             DataEmprestimo = dataEmprestimo;
             DataDevolucao = dataDevolucao;
             Status = status;
             Validate();
         }
-
+        [BsonElement("livro_id")]
         public int LivroId { get; private set; }
-        public Livro Livro { get; private set; } 
+        public virtual Livro Livro { get; private set; }
+        [BsonElement("data_emprestimo")]
         public DateTime DataEmprestimo { get; private set; }
+        [BsonElement("data_devolucao")]
         public DateTime DataDevolucao { get; private set; }
+        [BsonElement("status")]
         public EmprestimoStatusEnum Status { get; private set; }
 
         public void DevolverLivro()
@@ -35,9 +38,9 @@ namespace GestorBiblioteca.Domain.Entities
 
         public bool Validate()
         {
+            AssertionConcern.ValidaValorMaiorQueZero((int)LivroId, "Livro não pode ser vazio.");
             AssertionConcern.ValidaStatusRange((int)Status, "Status invalido.");
-            AssertionConcern.ValidaDataMaiorOuIgual(DataEmprestimo, DataDevolucao, "Data de emprestimo esta maior que a data de devolução");
-            AssertionConcern.ValidaObjetoNaoNulo(Livro, "Sem livro.");
+            AssertionConcern.ValidaDataMaiorOuIgual(DataEmprestimo, DataDevolucao, "Data de emprestimo esta maior que a data de devolução");           
             return true;
         }
     }

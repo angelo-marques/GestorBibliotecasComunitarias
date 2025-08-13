@@ -7,5 +7,6 @@ namespace GestorBiblioteca.Application.ViewModels
         public string Autor { get; set; } = string.Empty;
         public int AnoPublicacao { get; set; }
         public int QuantidadeDisponivel { get; set; }
+        public int QuantidadeCadastrada { get; set; }
     }
 }
