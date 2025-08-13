@@ -8,7 +8,8 @@ Este repositório contém uma implementação de um **sistema de gestão de bibl
 
 Contém as entidades de negócio `Livro` e `Emprestimo` juntamente com regras de validação e comportamentos:
 
-- **Livro**: possui `Id`, `Titulo`, `Autor`, `AnoPublicacao` e `QuantidadeDisponivel`.  A classe expõe métodos para diminuir e aumentar a quantidade em estoque, lançando exceção quando não há exemplares disponíveis.
+- **Livro**: possui `Id`, `Titulo`, `Autor`, `AnoPublicacao`, `QuantidadeDisponivel` e `QuantidadeInicial`, foi adicionado um dato para verificar a quantidade limite inicial para evitar que seja devolvido acima do limite.
+  A classe expõe métodos para diminuir e aumentar a quantidade em estoque, lançando exceção quando não há exemplares disponíveis.
 - **Emprestimo**: armazena informações de empréstimos (`LivroId`, datas de empréstimo e devolução e `Status`).  O método `DevolverLivro` marca o empréstimo como devolvido e atualiza a data de devolução.
 
 ### Camada de Aplicação
@@ -38,6 +39,7 @@ O MediatR é utilizado para desacoplar os controladores da lógica de negócio. 
 1. **Pré‑requisitos:**
    - [.NET 8 SDK](https://dotnet.microsoft.com/download) instalado.
    - Um servidor SQL Server (ou ajuste o `appsettings.json` para apontar para outro banco suportado).  Para testes locais pode‑se utilizar a edição Express ou um banco em memória.
+   - Caso for usar docker: analisar que o banco do MongoDB está direcionado para o docker o que pode ser subido via docker-composer.yml o qual vai gerar api junto. 
 
 2. **Clonar o repositório:**
 
@@ -67,6 +69,23 @@ O MediatR é utilizado para desacoplar os controladores da lógica de negócio. 
    ```
 
    A API estará acessível em `https://localhost:5001` (HTTPS) e `http://localhost:5000` (HTTP).  A interface do Swagger é habilitada em ambiente de desenvolvimento para facilitar os testes.
+
+6. **Executar via Docker:**
+O projeto já inclui uma infraestrutura pronta com Docker Compose:
+
+````
+cd backend
+docker-compose up -d
+````
+
+Após a construção das imagens, a API ficará acessível na porta configurada no docker, assim como os demais serviços. 
+As credenciais dos serviços estão definidas no arquivo docker-compose.yml e podem ser alteradas conforme a necessidade.
+<br>
+Para derrubar os containers:
+
+````
+docker-compose down
+````
 
 ## ✅ Executando os testes e cobertura
 
