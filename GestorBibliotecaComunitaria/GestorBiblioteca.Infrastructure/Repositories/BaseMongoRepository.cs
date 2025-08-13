@@ -20,7 +20,7 @@ namespace GestorBiblioteca.Infrastructure.Repositories
 
         public virtual TEntity? BuscarPorId(int id)
         {
-            FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("codigo_id", id);
+            FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("_id", id);
             TEntity? resposta = _dbCollection.Find(filter).FirstOrDefault();
             return resposta;
         }
@@ -41,7 +41,7 @@ namespace GestorBiblioteca.Infrastructure.Repositories
                 throw new ArgumentNullException($"{nameof(Atualizar)} {typeof(TEntity).Name} não deve ser nulo");
             }
 
-            FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("codigo_id", id);
+            FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("_id", id);
 
             _context.AddCommand(() => _dbCollection.ReplaceOneAsync(filter, obj));
             _context.AddCommand(() => _dbCollection.UpdateOneAsync(filter, Builders<TEntity>.Update.Set("data_alteracao", DateTime.Now.AddHours(-3))));
@@ -49,7 +49,7 @@ namespace GestorBiblioteca.Infrastructure.Repositories
 
         public virtual void DeletarPorId(int id)
         {
-            FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("codigo_id", id);
+            FilterDefinition<TEntity> filter = Builders<TEntity>.Filter.Eq("_id", id);
 
             _context.AddCommand(() => _dbCollection.DeleteOneAsync(filter));
         }

@@ -19,6 +19,7 @@ namespace GestorBiblioteca.Domain.Entities
         }
         [BsonElement("livro_id")]
         public int LivroId { get; private set; }
+        [BsonIgnore]
         public virtual Livro Livro { get; private set; }
         [BsonElement("data_emprestimo")]
         public DateTime DataEmprestimo { get; private set; }
