@@ -37,7 +37,7 @@ namespace GestorBiblioteca.Infrastructure.Repositories
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context?.Dispose();
         }
     }
 }

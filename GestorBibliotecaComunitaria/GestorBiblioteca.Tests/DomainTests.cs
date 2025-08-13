@@ -17,7 +17,7 @@ namespace GestorBiblioteca.Tests
             var quantidade = 5;
 
             // Act
-            var livro = new Livro(titulo, autor, ano, quantidade);
+            var livro = new Livro(titulo, autor, ano, quantidade, 5);
 
             // Assert
             Assert.Multiple(() =>
@@ -32,7 +32,7 @@ namespace GestorBiblioteca.Tests
         [Fact]
         public void Livro_DiminuirQuantidade_Should_Reduce_Stock()
         {
-            var livro = new Livro("Title", "Author", 2020, 3);
+            var livro = new Livro("Title", "Author", 2020, 3, 3);
             livro.DiminuirQuantidade();
             Assert.Equal(2, livro.QuantidadeDisponivel);
         }
@@ -40,7 +40,7 @@ namespace GestorBiblioteca.Tests
         [Fact]
         public void Livro_DiminuirQuantidade_Should_Throw_When_No_Stock()
         {
-            var livro = new Livro("Title", "Author", 2020, 1);
+            var livro = new Livro("Title", "Author", 2020, 1, 1);
             livro.DiminuirQuantidade();
             Assert.Throws<ArgumentException>(() => livro.DiminuirQuantidade());
         }
@@ -48,7 +48,7 @@ namespace GestorBiblioteca.Tests
         [Fact]
         public void Livro_AumentarQuantidade_Should_Increase_Stock()
         {
-            var livro = new Livro("Title", "Author", 2020, 1);
+            var livro = new Livro("Title", "Author", 2020, 1, 1);
             livro.AumentarQuantidade();
             Assert.Equal(2, livro.QuantidadeDisponivel);
         }
@@ -56,10 +56,10 @@ namespace GestorBiblioteca.Tests
         [Fact]
         public void Emprestimo_DevolverLivro_Should_Update_Status_And_Date()
         {
-            var livro = new Livro("Title", "Author", 2020, 1);
+            var livro = new Livro("Title", "Author", 2020, 1, 1);
             var dataEmprestimo = DateTime.UtcNow.AddDays(-2);
             var dueDate = DateTime.UtcNow.AddDays(5);
-            var emprestimo = new Emprestimo(1, livro, dataEmprestimo, dueDate, EmprestimoStatusEnum.Ativo);
+            var emprestimo = new Emprestimo(1, dataEmprestimo, dueDate, EmprestimoStatusEnum.Ativo);
 
             emprestimo.DevolverLivro();
             Assert.Multiple(() =>

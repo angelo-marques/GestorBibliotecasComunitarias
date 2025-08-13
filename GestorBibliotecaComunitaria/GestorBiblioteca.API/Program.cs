@@ -3,14 +3,18 @@ using GestorBiblioteca.Application.Commands.Requests.Livros;
 using GestorBiblioteca.Application.Commands.Responses;
 using GestorBiblioteca.Application.Handlers.Emprestimo;
 using GestorBiblioteca.Application.Handlers.Livro;
+using GestorBiblioteca.Infrastructure.Events;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using GestorBiblioteca.Infrastructure.Persistence;
 using GestorBiblioteca.Infrastructure.Repositories;
+using GestorBiblioteca.Infrastructure.Settings;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MongoDB.Driver;
+using System.Text.Json.Serialization;
 
 internal class Program
 {
@@ -23,7 +27,12 @@ internal class Program
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
-   
+        builder.Services.AddControllers(options => {
+            options.RespectBrowserAcceptHeader = true;
+            options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+        }).AddJsonOptions(x => {
+            x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; x.JsonSerializerOptions.PropertyNamingPolicy = null; 
+        });
         builder.Services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Gestor Biblioteca API", Version = "v1" });
@@ -39,17 +48,16 @@ internal class Program
             });
 
             c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
                 {
+                    new OpenApiSecurityScheme
                     {
-                        new OpenApiSecurityScheme
-                        {
-                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-                        },
-                        new string[] { }
-                    }
-                });
+                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                    },
+                    new string[] { }
+                }
+            });
         });
-
 
         builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(typeof(Program).Assembly));
         builder.Services.AddScoped(typeof(IRequestHandler<CreateEmprestimoRequest, GenericCommandResponse>), typeof(CreateEmprestimoHandler));
@@ -59,8 +67,6 @@ internal class Program
         builder.Services.AddScoped(typeof(IRequestHandler<CreateLivroRequest, GenericCommandResponse>), typeof(CreateLivroHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<UpdateLivroRequest, GenericCommandResponse>), typeof(UpdateLivroHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<DeleteLivroRequest, GenericCommandResponse>), typeof(DeleteLivroHandler));
-
-
         builder.Services.AddTransient<IEmprestimoRepository, EmprestimoRepository>();
         builder.Services.AddTransient<ILivroRepository, LivroRepository>();
         builder.Services.AddDbContext<GestorBibliotecaDbContext>(options =>
@@ -69,33 +75,29 @@ internal class Program
                 sqlOptions => sqlOptions.MigrationsAssembly("GestorBiblioteca.API")
             )
         );
-        builder.Services.AddSingleton<IMongoClient>(sp =>
-    new MongoClient(builder.Configuration.GetConnectionString("MongoConnection")));
+        builder.Services.Configure<MongoSettings>(builder.Configuration.GetSection("MongoConnectionSettings"));
+        builder.Services.AddSingleton<IBaseMongoContext, BaseMongoDbContext>();
+        builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+        builder.Services.AddScoped<ILivroMongoRepository, LivroMongoEventsRepository>();
+        builder.Services.AddScoped<IEmprestimoMongoRepository, EmprestimoMongoEventsRepository>();
 
         builder.Services.AddHttpClient();
 
-      
         var app = builder.Build();
 
         using (var scope = app.Services.CreateScope())
         {
             var db = scope.ServiceProvider.GetRequiredService<GestorBibliotecaDbContext>();
-                db.Database.MigrateAsync();
+            db.Database.MigrateAsync();
         }
-
         // Configure the HTTP request pipeline.
-
         app.UseCors("AllowSpecificOrigin");
-        
         app.UseHttpsRedirection();
-
         app.UseSwagger();
         app.UseSwaggerUI();
         app.UseAuthentication();
         app.UseAuthorization();
-        
         app.MapControllers();
-
         app.Run();
     }
 }

@@ -8,7 +8,7 @@ namespace GestorBiblioteca.Tests.Domain
 {
     public class EmprestimoTests
     {
-        private static Livro CreateLivro() => new("Test Title", "Test Author", 2000, 5);
+        private static Livro CreateLivro() => new("Test Title", "Test Author", 2000, 5, 5);
 
         [Fact]
         public void Constructor_WithValidData_ShouldSetProperties()
@@ -21,11 +21,10 @@ namespace GestorBiblioteca.Tests.Domain
             EmprestimoStatusEnum status = EmprestimoStatusEnum.Ativo;
 
             // Act
-            var emprestimo = new Emprestimo(livroId, livro, dataEmprestimo, dataDevolucao, status);
+            var emprestimo = new Emprestimo(livroId, dataEmprestimo, dataDevolucao, status);
 
             // Assert
-            emprestimo.LivroId.Should().Be(livroId);
-            emprestimo.Livro.Should().Be(livro);
+            emprestimo.LivroId.Should().Be(livroId);           
             emprestimo.DataEmprestimo.Should().Be(dataEmprestimo);
             emprestimo.DataDevolucao.Should().Be(dataDevolucao);
             emprestimo.Status.Should().Be(status);
@@ -41,26 +40,10 @@ namespace GestorBiblioteca.Tests.Domain
             DateTime dataDevolucao = new DateTime(2024, 1, 1);
 
             // Act
-            Action act = () => new Emprestimo(livroId, livro, dataEmprestimo, dataDevolucao, EmprestimoStatusEnum.Ativo);
+            Action act = () => new Emprestimo(livroId, dataEmprestimo, dataDevolucao, EmprestimoStatusEnum.Ativo);
 
             // Assert
             act.Should().Throw<InvalidOperationException>().WithMessage("Data de emprestimo esta maior que a data de devolução*");
-        }
-
-        [Fact]
-        public void Constructor_WithNullLivro_ShouldThrow()
-        {
-            // Arrange
-            Livro livro = null;
-            int livroId = 1;
-            DateTime dataEmprestimo = new DateTime(2024, 1, 1);
-            DateTime dataDevolucao = new DateTime(2024, 1, 2);
-
-            // Act
-            Action act = () => new Emprestimo(livroId, livro, dataEmprestimo, dataDevolucao, EmprestimoStatusEnum.Ativo);
-
-            // Assert
-            act.Should().Throw<InvalidOperationException>().WithMessage("Sem livro.*");
         }
 
         [Theory]
@@ -77,7 +60,7 @@ namespace GestorBiblioteca.Tests.Domain
             var status = (EmprestimoStatusEnum)invalidStatus;
 
             // Act
-            Action act = () => new Emprestimo(livroId, livro, dataEmprestimo, dataDevolucao, status);
+            Action act = () => new Emprestimo(livroId, dataEmprestimo, dataDevolucao, status);
 
             // Assert
             act.Should().Throw<InvalidOperationException>().WithMessage("Status invalido.*");
@@ -88,7 +71,7 @@ namespace GestorBiblioteca.Tests.Domain
         {
             // Arrange
             var livro = CreateLivro();
-            var emprestimo = new Emprestimo(1, livro, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), EmprestimoStatusEnum.Ativo);
+            var emprestimo = new Emprestimo(1, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), EmprestimoStatusEnum.Ativo);
 
             // Act
             emprestimo.DevolverLivro();
@@ -104,7 +87,7 @@ namespace GestorBiblioteca.Tests.Domain
         {
             // Arrange
             var livro = CreateLivro();
-            var emprestimo = new Emprestimo(1, livro, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), EmprestimoStatusEnum.Ativo);
+            var emprestimo = new Emprestimo(1, DateTime.UtcNow.AddDays(-2), DateTime.UtcNow.AddDays(1), EmprestimoStatusEnum.Ativo);
             emprestimo.DevolverLivro();
 
             // Act

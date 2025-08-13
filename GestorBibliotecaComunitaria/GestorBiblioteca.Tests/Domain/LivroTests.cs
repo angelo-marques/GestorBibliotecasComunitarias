@@ -17,14 +17,13 @@ namespace GestorBiblioteca.Tests.Domain
             int quantidade = 10;
 
             // Act
-            var livro = new Livro(titulo, autor, ano, quantidade);
+            var livro = new Livro(titulo, autor, ano, quantidade, 5);
 
             // Assert
             livro.Titulo.Should().Be(titulo);
             livro.Autor.Should().Be(autor);
             livro.AnoPublicacao.Should().Be(ano);
             livro.QuantidadeDisponivel.Should().Be(quantidade);
-            livro.IdEmprestimo.Should().Be(0);
             livro.Emprestimos.Should().BeNull();
         }
 
@@ -38,7 +37,7 @@ namespace GestorBiblioteca.Tests.Domain
         public void Constructor_WithInvalidData_ShouldThrow(string titulo, string autor, int ano, int quantidade)
         {
             // Act
-            Action act = () => new Livro(titulo, autor, ano, quantidade);
+            Action act = () => new Livro(titulo, autor, ano, quantidade, 5);
 
             // Assert
             act.Should().Throw<InvalidOperationException>();
@@ -48,7 +47,7 @@ namespace GestorBiblioteca.Tests.Domain
         public void DiminuirQuantidade_WithPositiveQuantity_ShouldDecrement()
         {
             // Arrange
-            var livro = new Livro("Teste", "Autor", 2000, 5);
+            var livro = new Livro("Teste", "Autor", 2000, 5, 5);
             int quantidadeAntes = livro.QuantidadeDisponivel;
 
             // Act
@@ -62,7 +61,7 @@ namespace GestorBiblioteca.Tests.Domain
         public void DiminuirQuantidade_WithZeroOrNegativeQuantity_ShouldThrow()
         {
             // Arrange
-            var livro = new Livro("Teste", "Autor", 2000, 1);
+            var livro = new Livro("Teste", "Autor", 2000, 1, 1);
             livro.DiminuirQuantidade();
 
             // Act
@@ -76,7 +75,7 @@ namespace GestorBiblioteca.Tests.Domain
         public void AumentarQuantidade_ShouldIncrement()
         {
             // Arrange
-            var livro = new Livro("Teste", "Autor", 2000, 1);
+            var livro = new Livro("Teste", "Autor", 2000, 1, 1);
             int quantidadeAntes = livro.QuantidadeDisponivel;
 
             // Act
@@ -89,7 +88,7 @@ namespace GestorBiblioteca.Tests.Domain
         [Fact]
         public void Update_WithValidData_ShouldUpdateFieldsAndDecreaseOnce()
         {
-            var livro = new Livro("Titulo original", "Autor original", 2000, 5);
+            var livro = new Livro("Titulo original", "Autor original", 2000, 5, 5);
             string novoAutor = "Novo Autor";
             string novoTitulo = "Novo Título";
             int novaQuantidade = 3;
@@ -110,7 +109,7 @@ namespace GestorBiblioteca.Tests.Domain
         [InlineData("Título", "Autor", -1, 2023)]
         public void Update_WithInvalidData_ShouldThrow(string novoAutor, string novoTitulo, int novaQuantidade, int novoAno)
         {
-            var livro = new Livro("Titulo", "Autor", 2000, 5);
+            var livro = new Livro("Titulo", "Autor", 2000, 5, 5);
 
             Action act = () => livro.Update(novoAutor, novoTitulo, novaQuantidade, novoAno);
 

@@ -21,10 +21,10 @@ namespace GestorBiblioteca.Tests.Application
             var unitOfWork = Substitute.For<IUnitOfWork>();
             livroRepository.UnitOfWork.Returns(unitOfWork);
             unitOfWork.Commit().Returns(Task.FromResult(true));
-
-            var handler = new CreateLivroHandler(livroRepository);
+            var context = Substitute.For<IBaseMongoContext>();
+            var handler = new CreateLivroHandler(livroRepository, context, unitOfWork);
             var request = new CreateLivroRequest("Titulo", "Autor", 2024, 3);
-
+           
             // Act
             GenericCommandResponse response = await handler.Handle(request, CancellationToken.None);
 
@@ -33,7 +33,7 @@ namespace GestorBiblioteca.Tests.Application
             response.Menssagem.Should().Be("Sucesso");
             response.Dados.Should().NotBeNull().And.BeOfType<Livro>();
             livroRepository.Received(1).Cadastrar(Arg.Any<Livro>());
-            await unitOfWork.Received(1).Commit();
+            await unitOfWork.Received(2).Commit();
         }
 
         [Fact]
@@ -44,7 +44,8 @@ namespace GestorBiblioteca.Tests.Application
             var unitOfWork = Substitute.For<IUnitOfWork>();
             livroRepository.UnitOfWork.Returns(unitOfWork);
             unitOfWork.Commit().Returns(Task.FromResult(false));
-            var handler = new CreateLivroHandler(livroRepository);
+            var context = Substitute.For<IBaseMongoContext>();
+            var handler = new CreateLivroHandler(livroRepository, context, unitOfWork);
             var request = new CreateLivroRequest("Titulo", "Autor", 2024, 3);
 
             // Act
@@ -52,7 +53,7 @@ namespace GestorBiblioteca.Tests.Application
 
             // Assert
             response.Sucesso.Should().BeFalse();
-            response.Menssagem.Should().Be("Erro ao tentar salvar dados");
+            response.Menssagem.Should().Be("Erro ao tentar salvar dados no banco relaciona.");
             response.Dados.Should().BeNull();
         }
     }
