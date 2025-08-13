@@ -1,4 +1,6 @@
 using GestorBiblioteca.Application.ViewModels;
+using GestorBiblioteca.Domain.Entities;
+using GestorBiblioteca.Infrastructure.Events;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
@@ -16,15 +18,14 @@ namespace GestorBiblioteca.Application.Queries.Livros
 
     public class GetAllLivrosQueryHandler : IRequestHandler<GetAllLivrosQuery, ResultViewModel<List<LivroViewModel>>>
     {
-        private readonly ILivroRepository _livroRepository;
-        public GetAllLivrosQueryHandler(ILivroRepository livroRepository)
+        private readonly ILivroMongoRepository _livroMongoRepository;
+        public GetAllLivrosQueryHandler(IBaseMongoContext context)
         {
-            _livroRepository = livroRepository;
+            _livroMongoRepository = new LivroMongoEventsRepository(context, erpName: "Livro");
         }
         public async Task<ResultViewModel<List<LivroViewModel>>> Handle(GetAllLivrosQuery request, CancellationToken cancellationToken)
         {
-            var livros = await _livroRepository.BuscarTodos();
-            var list = livros.Select(l => new LivroViewModel
+            var livros = _livroMongoRepository.BuscarTodos().ToList().Select(l => new LivroViewModel
             {
                 Id = l.Id,
                 Titulo = l.Titulo,
@@ -33,12 +34,18 @@ namespace GestorBiblioteca.Application.Queries.Livros
                 QuantidadeDisponivel = l.QuantidadeDisponivel,
                 QuantidadeCadastrada = (int)l.QuantidadeCadastrada
             });
+
+            if (!livros.Any())
+            {
+                return ResultViewModel<List<LivroViewModel>>.Error("Sem dados.");
+            }
+           
             if (!string.IsNullOrWhiteSpace(request.Search))
             {
                 string search = request.Search.ToLower();
-                list = list.Where(l => l.Titulo.ToLower().Contains(search) || l.Autor.ToLower().Contains(search));
+                livros = livros.Where(l => l.Titulo.ToLower().Contains(search) || l.Autor.ToLower().Contains(search));
             }
-            return ResultViewModel<List<LivroViewModel>>.Success(list.ToList());
+            return ResultViewModel<List<LivroViewModel>>.Success(livros.ToList());
         }
     }
 }

@@ -1,5 +1,6 @@
 using GestorBiblioteca.Application.ViewModels;
 using GestorBiblioteca.Domain.Enums;
+using GestorBiblioteca.Infrastructure.Events;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using MediatR;
 
@@ -16,16 +17,18 @@ namespace GestorBiblioteca.Application.Queries.Emprestimos
 
     public class GetEmprestimoByIdQueryHandler : IRequestHandler<GetEmprestimoByIdQuery, ResultViewModel<EmprestimoViewModel>>
     {
-        private readonly IEmprestimoRepository _emprestimoRepository;
-        public GetEmprestimoByIdQueryHandler(IEmprestimoRepository emprestimoRepository)
+        private readonly IEmprestimoMongoRepository _emprestimoMongoRepository;
+        public GetEmprestimoByIdQueryHandler(IBaseMongoContext context)
         {
-            _emprestimoRepository = emprestimoRepository;
+            _emprestimoMongoRepository = new EmprestimoMongoEventsRepository(context, erpName: "Emprestimo");
         }
         public async Task<ResultViewModel<EmprestimoViewModel>> Handle(GetEmprestimoByIdQuery request, CancellationToken cancellationToken)
         {
-            var emprestimo = await _emprestimoRepository.BuscarPorId(request.Id);
+            var emprestimo = _emprestimoMongoRepository.BuscarPorId(request.Id);
+            
             if (emprestimo == null)
                 return ResultViewModel<EmprestimoViewModel>.Error("Empréstimo não encontrado.");
+
             var viewModel = new EmprestimoViewModel
             {
                 Id = emprestimo.Id,
@@ -35,6 +38,7 @@ namespace GestorBiblioteca.Application.Queries.Emprestimos
                 DataDevolucao = emprestimo.Status == EmprestimoStatusEnum.Devolvido ? emprestimo.DataDevolucao : null,
                 Status = emprestimo.Status.ToString()
             };
+
             return ResultViewModel<EmprestimoViewModel>.Success(viewModel);
         }
     }

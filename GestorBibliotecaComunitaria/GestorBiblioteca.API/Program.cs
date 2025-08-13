@@ -3,6 +3,9 @@ using GestorBiblioteca.Application.Commands.Requests.Livros;
 using GestorBiblioteca.Application.Commands.Responses;
 using GestorBiblioteca.Application.Handlers.Emprestimo;
 using GestorBiblioteca.Application.Handlers.Livro;
+using GestorBiblioteca.Application.Queries.Emprestimos;
+using GestorBiblioteca.Application.Queries.Livros;
+using GestorBiblioteca.Application.ViewModels;
 using GestorBiblioteca.Infrastructure.Events;
 using GestorBiblioteca.Infrastructure.Interfaces;
 using GestorBiblioteca.Infrastructure.Persistence;
@@ -67,6 +70,10 @@ internal class Program
         builder.Services.AddScoped(typeof(IRequestHandler<CreateLivroRequest, GenericCommandResponse>), typeof(CreateLivroHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<UpdateLivroRequest, GenericCommandResponse>), typeof(UpdateLivroHandler));
         builder.Services.AddScoped(typeof(IRequestHandler<DeleteLivroRequest, GenericCommandResponse>), typeof(DeleteLivroHandler));
+        builder.Services.AddScoped(typeof(IRequestHandler<GetAllEmprestimosQuery, ResultViewModel<List<EmprestimoViewModel>>>), typeof(GetAllEmprestimosQueryHandler));
+        builder.Services.AddScoped(typeof(IRequestHandler<GetEmprestimoByIdQuery, ResultViewModel<EmprestimoViewModel>>), typeof(GetEmprestimoByIdQueryHandler));
+        builder.Services.AddScoped(typeof(IRequestHandler<GetAllLivrosQuery, ResultViewModel<List<LivroViewModel>>>), typeof(GetAllLivrosQueryHandler));
+        builder.Services.AddScoped(typeof(IRequestHandler<GetLivroByIdQuery, ResultViewModel<LivroViewModel>>), typeof(GetLivroByIdQueryHandler));
         builder.Services.AddTransient<IEmprestimoRepository, EmprestimoRepository>();
         builder.Services.AddTransient<ILivroRepository, LivroRepository>();
         builder.Services.AddDbContext<GestorBibliotecaDbContext>(options =>
