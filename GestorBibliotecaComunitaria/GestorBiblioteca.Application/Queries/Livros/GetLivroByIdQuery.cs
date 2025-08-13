@@ -34,7 +34,8 @@ namespace GestorBiblioteca.Application.Queries.Livros
                 Titulo = livro.Titulo,
                 Autor = livro.Autor,
                 AnoPublicacao = livro.AnoPublicacao,
-                QuantidadeDisponivel = livro.QuantidadeDisponivel
+                QuantidadeDisponivel = livro.QuantidadeDisponivel,
+                QuantidadeCadastrada = (int)livro.QuantidadeCadastrada == null ? 0 : (int)livro.QuantidadeCadastrada
             };
 
             return ResultViewModel<LivroViewModel>.Success(viewModel);

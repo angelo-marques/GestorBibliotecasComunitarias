@@ -14,7 +14,7 @@ namespace GestorBiblioteca.Infrastructure.Events
 
         public bool VerificaSeExisteLivro(int codigo)
         {
-            Emprestimo result = _dbCollection.Find(Builders<Emprestimo>.Filter.Eq("codigo_id", codigo)).FirstOrDefault();
+            Emprestimo result = _dbCollection.Find(Builders<Emprestimo>.Filter.Eq("_id", codigo)).FirstOrDefault();
             return result != null;
         }
     }

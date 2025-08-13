@@ -28,7 +28,9 @@ namespace GestorBiblioteca.Domain.Entities
         public int QuantidadeDisponivel { get; private set; }
         [BsonElement("quantidade_cadastrada")]
         public int? QuantidadeCadastrada { get; private set; }
+        
         [JsonIgnore]
+        [BsonIgnore]
         public virtual List<Emprestimo> Emprestimos { get; private set; }
 
 

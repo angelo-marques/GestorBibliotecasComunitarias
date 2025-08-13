@@ -14,7 +14,7 @@ namespace GestorBiblioteca.Infrastructure.Events
 
         public bool VerificaSeExisteLivro(int codigo)
         {
-            Livro result = _dbCollection.Find(Builders<Livro>.Filter.Eq("codigo_id", codigo)).FirstOrDefault();
+            Livro result = _dbCollection.Find(Builders<Livro>.Filter.Eq("_id", codigo)).FirstOrDefault();
             return result != null;
         }
     }

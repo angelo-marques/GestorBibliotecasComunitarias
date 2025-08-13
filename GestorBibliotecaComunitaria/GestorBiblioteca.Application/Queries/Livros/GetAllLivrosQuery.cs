@@ -32,7 +32,7 @@ namespace GestorBiblioteca.Application.Queries.Livros
                 Autor = l.Autor,
                 AnoPublicacao = l.AnoPublicacao,
                 QuantidadeDisponivel = l.QuantidadeDisponivel,
-                QuantidadeCadastrada = (int)l.QuantidadeCadastrada
+                QuantidadeCadastrada = (int)l.QuantidadeCadastrada == null ? 0 : (int)l.QuantidadeCadastrada
             });
 
             if (!livros.Any())
